@@ -6,22 +6,33 @@ namespace csharpDemo
     {
         static void Main(string[] args)
         {
-            // Create  struct instance and initialize by using "new".
-            // Memory is allocated on thread stack.
-            Person p1 = new Person("Alex", 9);
-            Console.WriteLine("p1 Name = {0} Age = {1}", p1.Name, p1.Age);
+            // Create an instance of WorkItem by using the constructor in the
+            // base class that takes three arguments.
+            WorkItem item = new WorkItem("Fix Bugs",
+                                        "Fix all bugs in my code branch",
+                                        new TimeSpan(3, 4, 0, 0));
 
-            // Create  new struct object. Note that  struct can be initialized
-            // without using "new".
-            Person p2 = p1;
+            // Create an instance of ChangeRequest by using the constructor in
+            // the derived class that takes four arguments.
+            ChangeRequest change = new ChangeRequest("Change Base Class Design",
+                                                    "Add members to the class",
+                                                    new TimeSpan(4, 0, 0),
+                                                    1);
 
-            // Assign values to p2 members.
-            p2.Name = "Spencer";
-            p2.Age = 7;
-            Console.WriteLine("p2 Name = {0} Age = {1}", p2.Name, p2.Age);
+            // Use the ToString method defined in WorkItem.
+            Console.WriteLine(item.ToString());
 
-            // p1 values remain unchanged because p2 is  copy.
-            Console.WriteLine("p1 Name = {0} Age = {1}", p1.Name, p1.Age);
+            // Use the inherited Update method to change the title of the
+            // ChangeRequest object.
+            change.Update("Change the Design of the Base Class",
+                new TimeSpan(4, 0, 0));
+
+            // ChangeRequest inherits WorkItem's override of ToString.
+            Console.WriteLine(change.ToString());
+            /* Output:
+                1 - Fix Bugs
+                2 - Change the Design of the Base Class
+            */
         }
     }
 }
