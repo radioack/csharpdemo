@@ -1,14 +1,13 @@
 namespace csharpDemo
 {
-    class Person
+    public struct Person
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string Name;
+        public int Age;
         public Person(string name, int age)
         {
             Name = name;
             Age = age;
         }
-        // Other properties, methods, events...
     }
 }
