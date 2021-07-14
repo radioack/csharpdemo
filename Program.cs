@@ -1,8 +1,5 @@
 ﻿using System;
-using CommercialRegistration;
-using ConsumerVehicleRegistration;
-using LiveryRegistration;
-using toll_calculator;
+using System.IO;
 
 namespace csharpDemo
 {
@@ -10,33 +7,40 @@ namespace csharpDemo
     {
         static void Main(string[] args)
         {
-            var tollCalc = new TollCalculator();
+            //CodeWithoutCleanup();
+            CodeWithCleanup();
+        }
 
-            var car = new Car();
-            var taxi = new Taxi();
-            var bus = new Bus();
-            var truck = new DeliveryTruck();
+        static void CodeWithoutCleanup()
+        {
+            FileStream? file = null;
+            FileInfo fileInfo = new FileInfo("./file.txt");
 
-            Console.WriteLine($"The toll for a car is {tollCalc.CalculateToll(car)}");
-            Console.WriteLine($"The toll for a taxi is {tollCalc.CalculateToll(taxi)}");
-            Console.WriteLine($"The toll for a bus is {tollCalc.CalculateToll(bus)}");
-            Console.WriteLine($"The toll for a truck is {tollCalc.CalculateToll(truck)}");
+            file = fileInfo.OpenWrite();
+            file.WriteByte(0xF);
+
+            file.Close();
+        }
+
+        static void CodeWithCleanup()
+        {
+            FileStream? file = null;
+            FileInfo? fileInfo = null;
 
             try
             {
-                tollCalc.CalculateToll("this will fail");
+                fileInfo = new FileInfo("./file.txt");
+
+                file = fileInfo.OpenWrite();
+                file.WriteByte(0xF);
             }
-            catch (ArgumentException e)
+            catch (UnauthorizedAccessException e)
             {
-                Console.WriteLine("Caught an argument exception when using the wrong type");
+                Console.WriteLine(e.Message);
             }
-            try
+            finally
             {
-                tollCalc.CalculateToll(null!);
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine("Caught an argument exception when using null");
+                file?.Close();
             }
         }
     }
