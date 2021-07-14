@@ -1,26 +1,36 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace csharpDemo
 {
     class Program
     {
-        private class ExampleClass { }
         static void Main(string[] args)
         {
-            // Declare a list of type int.
-            GenericCatify<int> genericThing1 = new GenericCatify<int>();
-            var returnedString = genericThing1.AddCats(1);
-            //Console.WriteLine(returnedString);
+            // Polymorphism at work #1: a Rectangle, Triangle and Circle
+            // can all be used whereever a Shape is expected. No cast is
+            // required because an implicit conversion exists from a derived
+            // class to its base class.
+            var shapes = new List<Shape>
+            {
+                new Rectangle(),
+                new Triangle(),
+                new Circle()
+            };
 
-            // Declare a list of type string.
-            GenericCatify<string> genericThing2 = new GenericCatify<string>();
-            var returnedString2 = genericThing2.AddCats("THIS IS FANTASIC!");
-            //Console.WriteLine(returnedString2);
-
-            // Declare a list of type ExampleClass.
-            GenericCatify<ExampleClass> genericThing3 = new GenericCatify<ExampleClass>();
-            var returnedString3 = genericThing3.AddCats(new ExampleClass());
-            //Console.WriteLine(returnedString3);
+            // Polymorphism at work #2: the virtual method Draw is
+            // invoked on each of the derived classes, not the base class.
+            foreach (var shape in shapes)
+            {
+                shape.Draw();
+            }
+            /* Output:
+                Drawing a rectangle
+                Performing base class drawing tasks
+                Drawing a triangle
+                Performing base class drawing tasks
+                Drawing a circle
+                Performing base class drawing tasks
+            */
         }
     }
 }
