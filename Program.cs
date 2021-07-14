@@ -1,26 +1,73 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace csharpDemo
 {
     class Program
     {
-        private class ExampleClass { }
+        static IEnumerable<string> Suits()
+        {
+            yield return "clubs";
+            yield return "diamonds";
+            yield return "hearts";
+            yield return "spades";
+        }
+
+        static IEnumerable<string> Ranks()
+        {
+            yield return "two";
+            yield return "three";
+            yield return "four";
+            yield return "five";
+            yield return "six";
+            yield return "seven";
+            yield return "eight";
+            yield return "nine";
+            yield return "ten";
+            yield return "jack";
+            yield return "queen";
+            yield return "king";
+            yield return "ace";
+        }
         static void Main(string[] args)
         {
-            // Declare a list of type int.
-            GenericCatify<int> genericThing1 = new GenericCatify<int>();
-            var returnedString = genericThing1.AddCats(1);
-            //Console.WriteLine(returnedString);
+            var startingDeck = Suits().SelectMany(suit => Ranks().Select(rank => new { Suit = suit, Rank = rank }));
 
-            // Declare a list of type string.
-            GenericCatify<string> genericThing2 = new GenericCatify<string>();
-            var returnedString2 = genericThing2.AddCats("THIS IS FANTASIC!");
-            //Console.WriteLine(returnedString2);
+            foreach (var card in startingDeck)
+            {
+                Console.WriteLine(card);
+            }
 
-            // Declare a list of type ExampleClass.
-            GenericCatify<ExampleClass> genericThing3 = new GenericCatify<ExampleClass>();
-            var returnedString3 = genericThing3.AddCats(new ExampleClass());
-            //Console.WriteLine(returnedString3);
+            // var takenCards = startingDeck.Take(10);
+            // foreach (var card in takenCards)
+            // {
+            //     Console.WriteLine(card);
+            // }
+
+            // var skippedCards = startingDeck.Skip(5);
+            // foreach (var card in skippedCards)
+            // {
+            //     Console.WriteLine(card);
+            // }
+
+            // var chaining = startingDeck.Skip(5).Take(3);
+            // foreach (var card in chaining)
+            // {
+            //     Console.WriteLine(card);
+            // }
+
+            // var findSpecificNumberCards = startingDeck.Where(card => card.Rank == "three" || card.Rank == "four");
+            // foreach (var card in findSpecificNumberCards)
+            // {
+            //     Console.WriteLine(card);
+            // }
+
+            // var selectCard = from card in startingDeck where (card.Suit == "clubs") select card;
+            // foreach (var card in selectCard)
+            // {
+            //     Console.WriteLine(card);
+            // }
         }
     }
 }
