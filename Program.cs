@@ -1,47 +1,33 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace csharpDemo
+namespace WebAPIClient
 {
     class Program
     {
-        static void Main(string[] args)
+        private static readonly HttpClient client = new HttpClient();
+
+        static async Task Main(string[] args)
         {
-            //CodeWithoutCleanup();
-            CodeWithCleanup();
+            await WriteLatestXkcd();
         }
 
-        static void CodeWithoutCleanup()
+        private static async Task WriteLatestXkcd()
         {
-            FileStream? file = null;
-            FileInfo fileInfo = new FileInfo("./file.txt");
+            var response = await client.GetStringAsync("https://xkcd.com/info.0.json");
 
-            file = fileInfo.OpenWrite();
-            file.WriteByte(0xF);
+            //Console.Write(response);
 
-            file.Close();
-        }
+            //var xkcdObj = JsonSerializer.Deserialize<XkcdObject>(response);
+            //Console.WriteLine(xkcdObj.img);
 
-        static void CodeWithCleanup()
-        {
-            FileStream? file = null;
-            FileInfo? fileInfo = null;
+            //var imageWeWant = await client.GetByteArrayAsync(xkcdObj.img);
+            //System.Console.WriteLine(imageWeWant);
+            //File.WriteAllBytes("./myXkcdImage.png", imageWeWant);
 
-            try
-            {
-                fileInfo = new FileInfo("./file.txt");
-
-                file = fileInfo.OpenWrite();
-                file.WriteByte(0xF);
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                file?.Close();
-            }
         }
     }
 }
