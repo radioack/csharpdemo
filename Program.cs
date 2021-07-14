@@ -1,4 +1,8 @@
 ﻿using System;
+using CommercialRegistration;
+using ConsumerVehicleRegistration;
+using LiveryRegistration;
+using toll_calculator;
 
 namespace csharpDemo
 {
@@ -6,18 +10,34 @@ namespace csharpDemo
     {
         static void Main(string[] args)
         {
-            Person person1 = new Person("Leopold", 6);
-            Console.WriteLine("person1 Name = {0} Age = {1}", person1.Name, person1.Age);
+            var tollCalc = new TollCalculator();
 
-            // Declare new person, assign person1 to it.
-            Person person2 = person1;
+            var car = new Car();
+            var taxi = new Taxi();
+            var bus = new Bus();
+            var truck = new DeliveryTruck();
 
-            // Change the name of person2, and person1 also changes.
-            person2.Name = "Molly";
-            person2.Age = 16;
+            Console.WriteLine($"The toll for a car is {tollCalc.CalculateToll(car)}");
+            Console.WriteLine($"The toll for a taxi is {tollCalc.CalculateToll(taxi)}");
+            Console.WriteLine($"The toll for a bus is {tollCalc.CalculateToll(bus)}");
+            Console.WriteLine($"The toll for a truck is {tollCalc.CalculateToll(truck)}");
 
-            Console.WriteLine("person2 Name = {0} Age = {1}", person2.Name, person2.Age);
-            Console.WriteLine("person1 Name = {0} Age = {1}", person1.Name, person1.Age);
+            try
+            {
+                tollCalc.CalculateToll("this will fail");
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine("Caught an argument exception when using the wrong type");
+            }
+            try
+            {
+                tollCalc.CalculateToll(null!);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("Caught an argument exception when using null");
+            }
         }
     }
 }
